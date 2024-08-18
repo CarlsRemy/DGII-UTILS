@@ -1,0 +1,30 @@
+{
+  "name": "dgii-utils",
+  "version": "1.0.0",
+  "description": "DGII-Utils es un paquete de herramientas diseñado para simplificar la interacción con las aplicaciones web de la Dirección General de Impuestos Internos (DGII) en la República Dominicana. Este paquete incluye funciones para validar formatos fiscales como RNCs, cédulas, y comprobantes fiscales.",
+  "main": "./dist/dgii-utils.min.js",
+  "scripts": {
+    "build": "terser src/dgii-utils.js --compress --mangle --output dist/dgii-utils.min.js && terser src/dgii-valid.js --compress --mangle --output dist/dgii-valid.min.js && terser src/dgii-format.js --compress --mangle --output dist/dgii-format.min.js",
+    "test": "mocha test/*",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CarlsRemy/DGII-UTILS.git"
+  },
+  "author": "Carlos Ismael .Y .R",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CarlsRemy/DGII-UTILS/issues"
+  },
+  "homepage": "https://github.com/CarlsRemy/DGII-UTILS#readme",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.12",
+    "axios": "^0.24.0"
+  },
+  "devDependencies": {
+    "chai": "4.3.8",
+    "mocha": "^10.4.0",
+    "terser": "^5.31.0"
+  }
+}
