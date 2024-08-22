@@ -1,4 +1,4 @@
-const { clearRNC, clearNCF, isRNC, isENCF, isNCF, isSecureCode , isCarPlate} = require('./dgii-valid.js')
+const { clearRNC, clearNCF, clearCarPlate, isRNC, isENCF, isNCF, isSecureCode, isCarPlate } = require('./dgii-valid.js')
 const { formatNCF, formatRNC, DGIIReceiptTypes, vehiclePlateTypes, TypeCarPlate } = require('./dgii-format.js')
 const axios = require('axios');
 const cheerio = require('cheerio');
@@ -27,7 +27,8 @@ const ENCF = Object.freeze({
 
 const CarPlate = Object.freeze({
 	valid: isCarPlate,
-	getType: TypeCarPlate
+	getType: TypeCarPlate,
+	clear: clearCarPlate,
 })
 
 const axiosInstance = axios.create({
@@ -161,7 +162,7 @@ async function _consultNCF(RNC = "", NCF = "", RNCComprador = "", CodigoSegurida
 			throw new Error("El Codigo de Seguridad debe tener 6 caracteres alfanumericos.");
 		}
 
-	}else{
+	} else {
 		RNCComprador = ""
 		CodigoSeguridad = ""
 	}
@@ -214,4 +215,70 @@ async function consultENCF(RNC = "", NCF = "", RNCComprador = "", codigoSegurida
 	return _consultNCF(RNC, NCF, RNCComprador, codigoSeguridad)
 }
 
-module.exports = { DGIIReceiptTypes, RNC, NCF, ENCF, CarPlate,isSecureCode, consultRNC, consultCuidadanos, consultNCF , consultENCF};
+async function consultCarPlate(RNC = "", CarPlate = "") {
+	RNC = clearRNC(RNC)
+
+	if (!isRNC(RNC)) {
+		throw new Error("El RNC o Cedula debe tener 9 o 11 digitos.");
+	}
+
+	CarPlate = clearCarPlate(CarPlate)
+
+	if (!isCarPlate(CarPlate)) {
+		throw new Error("La placa de vehiculo no es valida.");
+	}
+
+	const viewState = "U+HFsdofOzsyWH4HLkslQ7aOjxFpFmXKSFruNOClbmUXUVfYSn+CzaFOn90eitGPIsdY42DFfd11oKkKsqclyGAim8Qt6zcP1MSligQmscKDJD4V0PaVEhE6szrE93geATHItk1X5aBu/wVchZeZjtiGph6iPJ0uSys4nAOYT/XE0zOdhcdZHoSKboI1kkpNuyr2Qrhu2Tzy9eg443+pjrAlurv8AMA+xScUXpaCuY8Z96LqLSPDx8oKt4G2izr2BiahYHWedLIoDQBF5DFmx8wjPDDqZWB7Xr+DYw+6L6R5yJ/99RL+n2atUKIJ8sJSvClXUSwNeEshsEOQdrWmquycq8sYrth541io+HXCnXbZHYCM+sLSDzVcx89xVdjrYvsm8ICpyqibzofimBC+8Cjj0EBIRWufczUl4aP3pDYy1bZGYVXlaz3jFgVoCHNNIsVFLPEuav0S43t7UkGZTEfl5UJDb1fAWH+K9PhZ/N+nCvbZJ2pwBP3SgyqHpirXBYUHVgF3+vBDccOTTN6aEcITby1PLqwKY3HWQs9dUNOcVXCcFFXQC5CCKVePQVSfLk6PShowUpHWfsKf95Ee2nGOg40GNe/yzRgFCNyw2eKj5xGxrM3N5anGxDRlDS78J7TmdFeyq3zP1I05Eab742GFh41JjPoV7Bt47KbR8Y0J+9foYGzi10wwjIpFyvY2onC7qUSa5ZCMi6ycxwztg0xMlb/OX+f4IHlFcZiM8+NgUW5+MI5UJiSKzx6dMU1BDY5i12RlI5bAKXSH7A610Kf1fl4MQ5wl0Q4XkDSWHrPK4E7+fWyPqRxvvTWTKTwFQ0PoQzdKp7noK2xDnuI3igWdGZZFFWY3kEN3Kx1wWwIgzcNvSUIAutbWxrGDVvYo+uN0reypfYm2FMhA+nlvF8JNONI8ow30KO6SFldGPXphm3r308RUYI44mCrjNoP33YBCDFfghSS2dChJvTX+KL5gVwiCtu7JFq3wkJLyq2dfrOQAgSSB0vIQtXL3r0v5yAIpJvItqwFdHyOGiWRlyXsGPJAgXJMbN0A5iZub+c/zzJKkLIQUPYpoVrm3YcHITFt29KTVIOY/Fn4xAwP1dOeu/cVuiK70SVz7PZN7Uvxo6ITi53F4vgOsbmy9C/o81Y/cG19Tb0f4eD35ZlrCuhjH0PCpmaBI/ClG2TPbEZeAZs4L+ENRMgfHMhQ5O1woB+NrKRuuHpm95Vv8HDs4gNDwvP2rUgmimnW75xgzBEVxmOIjgz5sU/iuQKUF0AfHKzQrg6UcRU7Snhcvaa/pSGGc/IbGFPafPApM52PZnpU1IxZ+"
+	const eventValidation = "bTFEsYrDtu8R6Hl+RGlHYeSAVyBNCxPOIg2YLHxtfB1p8dpCrzXWIyW9eKXTxe4Q2vXXB71ZRnuoN0MIlAdXDlRuziccKqqDpVJDY+e44EllGeSxmmECOvOoO5mtqyB2Vh2cFwUiH60eVOIyKkfPRASsFD22vL1ddegG7ePl8G2c4Y2xrufK8o0bidD4KwGTZ9a1Iw=="
+
+	const data = new URLSearchParams({
+		ctl00$smMain: "ctl00$upMainMaster|ctl00$cphMain$btnConsultar",
+		ctl00$cphMain$txtRNC: RNC,
+		ctl00$cphMain$txtPlaca: CarPlate,
+		__EVENTTARGET: "",
+		__EVENTARGUMENT: "",
+		__VIEWSTATE: viewState,
+		__VIEWSTATEGENERATOR: "D99DA1C5",
+
+		__EVENTVALIDATION: eventValidation,
+		ctl00$cphMain$btnConsultar: "Consultar",
+		__ASYNCPOST: true
+	});
+
+	return axiosInstance.post(`/placa.aspx`, data)
+		.then(async response => {
+			const html = await response.data
+			const results = {}
+			const $ = cheerio.load(html);
+
+
+			if ($) {
+				let Elements = $("tr>td", "tbody")
+				Elements.each((i, elem) => {
+					switch (i) {
+						case 0: results.placa = clearText($(elem).text()); break;
+						case 1: results.marca = clearText($(elem).text()); break;
+						case 2: results.modelo = clearText($(elem).text()); break;
+						case 3: results.color = clearText($(elem).text()); break;
+						case 4: results.fabricacion = clearText($(elem).text()); break;
+						case 5: results.estado = clearText($(elem).text()); break;
+					}
+				});
+
+				if (Elements != null && Elements.length > 0) {
+					results.oposiciones = [];
+
+					let Oposiciones = $("span", "#cphMain_gvOposiciones>tbody>tr>td")
+					Oposiciones.each((i, elem) => {
+						results.oposiciones.push(clearText($(elem).text()));
+					});
+
+				}
+			}
+			return results
+		})
+		.catch(error => error);
+}
+
+
+module.exports = { DGIIReceiptTypes, RNC, NCF, ENCF, CarPlate, isSecureCode, consultRNC, consultCuidadanos, consultNCF, consultENCF, consultCarPlate };

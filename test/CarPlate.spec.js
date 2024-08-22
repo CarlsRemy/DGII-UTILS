@@ -1,7 +1,7 @@
 // test.ts
 const { expect, assert } = require("chai");
 const { describe, it } = require("mocha");
-const { CarPlate } = require("../src/dgii-utils");
+const { CarPlate,consultCarPlate } = require("../src/dgii-utils");
 
 
 describe('CarPlate', () => {

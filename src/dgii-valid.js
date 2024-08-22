@@ -14,6 +14,15 @@ function clearNCF (NCF = "") {
 	return NCF.replace(/[^BE0-9]/g, '');
 }
 
+
+/**
+ * @param {string} CarPlate
+ * @returns {string} CarPlate 
+*/
+function clearCarPlate (CarPlate = "") {
+	return CarPlate.replace(/[^A-Z0-9]/gi, '');
+}
+
 /**
  * @param {string} RNC
  * @returns {boolean} isRNC 
@@ -43,12 +52,11 @@ function isNCF(NCF = "") {
 	return ncfRegex.test(NCF);
 }
 
-function isCarPlate(Code=""){
-	const regexPlaca = /^(A|AA|B|C|D|F|G|L|H|I|T|P|U|J|R|S|M|OE|OF|OM|OP|EA|EG|EL|EM|ED|EI|VC|WD|OI|EX|YX|Z|NZ|DD|PP|K)\d{4,6}$/;
-	return regexPlaca.test(Code);
+function isCarPlate(CarPlate=""){
+	clearCarPlate(CarPlate)
+	const regexPlaca = /^(A|AA|B|C|D|F|G|L|H|I|T|P|U|J|R|S|M|OE|OF|OM|OP|EA|EG|EL|EM|ED|EI|VC|WD|OI|EX|YX|Z|NZ|DD|PP|K)\d{4,6}$/i;
+	return regexPlaca.test(CarPlate);
 }
-
-
 
 function isSecureCode(Code=""){
 	const secureCodeRegex = /^[a-zA-Z0-9]{6}$/;
@@ -57,7 +65,8 @@ function isSecureCode(Code=""){
 
 exports.clearRNC = clearRNC;
 exports.clearNCF = clearNCF;
+exports.clearCarPlate = clearCarPlate;
 exports.isRNC = isRNC;
 exports.isENCF = isENCF;
 exports.isNCF = isNCF
-module.exports = { clearRNC, clearNCF, isRNC , isENCF, isNCF, isCarPlate, isSecureCode};
+module.exports = { clearRNC, clearNCF,clearCarPlate, isRNC , isENCF, isNCF, isCarPlate, isSecureCode};

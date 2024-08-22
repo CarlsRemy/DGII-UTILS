@@ -3,18 +3,38 @@ DGII-Utils es un paquete de herramientas diseñado para simplificar la interacci
 
 ## Consultas
 
-### consultRNC
+### consultRNC(RNC)
 Esta función realiza consultas sobre el Registro Nacional de Contribuyentes (RNC), obteniendo información relevante sobre un contribuyente específico según su RNC. Es útil para verificar la validez y detalles de un RNC en sistemas fiscales o administrativos.
 
-### consultCuidadanos
+### consultCuidadanos(RNC)
 Esta función realiza consulta que muestran a las personas inscritas en el RNC como:  Propietario de Vehículos/Inmuebles, Empleado/Asalariado, Diplomático/Cónsul, Participación en Empresas, Sucesiones y Otras ocupaciones 
+
+### consultCarPlate(RNC, CarPlate)
+Esta función realiza consultas que muestran informacion sobre el Vehiculo al cual esta Asociado la Cedula e placa proporcionadas para la busqueda
+
+#### Ejemplo:
+```js
+ const result = await consultCarPlate("049xxxxxxxx", "L196XXX")
+
+ console.log(result)
+/*{
+  placa: 'L196XXX',
+  marca: 'TOYOTA',
+  modelo: 'RN34L-KRA',
+  color: 'AMARILLO',
+  fabricacion: '1983',
+  estado: 'ACTIVO / CON OPOSICION',
+  oposiciones: [ 'ADMINISTRATIVA', '(No puede renovar)' ]
+}*/
+
+```
 
 **Nota:** No todas las Cedulas o RNC funcionan
 
-### consultNCF
+### consultNCF(RNC, NCF)
 Esta función permite consultar información sobre Números de Comprobantes Fiscales (NCF). Es utilizada para verificar la validez de un NCF y para obtener detalles relacionados con los comprobantes fiscales emitidos.
 
-### consultENCF
+### consultENCF(RNC, ENCF)
 Función que realiza consultas sobre Números de Comprobantes Fiscales Electrónicos (e-CF). Proporciona detalles y verifica la autenticidad de un e-CF, asegurando que cumple con las normativas y está correctamente registrado.
 
 ## Objetos 
@@ -43,8 +63,9 @@ Este objeto está diseñado para gestionar funciones relacionadas con los Númer
 ### CarPlate 
 Este objeto ofrece herramientas para manejar y validar placas de vehículos. Sus funciones principales incluyen:
 
-**valid:** Verifica si una placa de vehículo es válida según los formatos y reglas establecidos.
-**getType:** Identifica y devuelve el tipo de placa de vehículo basándose en su código.
+- **valid:** Verifica si una placa de vehículo es válida según los formatos y reglas establecidos.
+- **getType:** Identifica y devuelve el tipo de placa de vehículo basándose en su código.
+- **clear:** Limpia la placa de caracteres no esenciales.
 
 ### isSecureCode
 Esta función valida el formato del Código de Seguridad de un e-CF. 
