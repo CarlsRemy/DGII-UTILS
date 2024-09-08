@@ -38,7 +38,8 @@ describe('NCF', () => {
 
 describe('consultNCF', () => {
 	it(`debería devolver Object para el NCF "B0100000258"`, async () => {
-		await consultNCF("403012656","B0100000258").then((response) => {
+
+		await consultNCF("403012656", "B0100000258").then((response) => {
 			const data = {
 				RNC: '403012656',
 				nombre: 'UNIVERSIDAD AGROFORESTAL FERNANDO ARTURO DE MERINO',
@@ -50,5 +51,6 @@ describe('consultNCF', () => {
 
 			expect(response).to.deep.equal(data);
 		});
+
 	})
 });

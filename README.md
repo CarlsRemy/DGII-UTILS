@@ -1,6 +1,8 @@
 # DGII-UTILS
 DGII-Utils es un paquete de herramientas diseñado para simplificar la interacción con las aplicaciones web de la Dirección General de Impuestos Internos (DGII) en la República Dominicana. Este paquete incluye funciones para validar formatos fiscales como RNCs, cédulas, y comprobantes fiscales.
 
+**NOTA:** a partir de la version 2.0.0 se deshabilito la validación SSL, para evitar que la libreria deje de funcionar cuando el servidor de la DGII presenta errores con el Certificado SSL.
+
 ## Consultas
 
 ### consultRNC(RNC)
@@ -15,9 +17,8 @@ Esta función realiza consultas que muestran informacion sobre el Vehiculo al cu
 #### Ejemplo:
 ```js
  const result = await consultCarPlate("049xxxxxxxx", "L196XXX")
-
  console.log(result)
-/*{
+{
   placa: 'L196XXX',
   marca: 'TOYOTA',
   modelo: 'RN34L-KRA',
@@ -25,7 +26,7 @@ Esta función realiza consultas que muestran informacion sobre el Vehiculo al cu
   fabricacion: '1983',
   estado: 'ACTIVO / CON OPOSICION',
   oposiciones: [ 'ADMINISTRATIVA', '(No puede renovar)' ]
-}*/
+}
 
 ```
 
@@ -34,8 +35,23 @@ Esta función realiza consultas que muestran informacion sobre el Vehiculo al cu
 ### consultNCF(RNC, NCF)
 Esta función permite consultar información sobre Números de Comprobantes Fiscales (NCF). Es utilizada para verificar la validez de un NCF y para obtener detalles relacionados con los comprobantes fiscales emitidos.
 
-### consultENCF(RNC, ENCF)
+### consultENCF(RNC, ENCF, RNCComprador, CodigoSeguridad)
 Función que realiza consultas sobre Números de Comprobantes Fiscales Electrónicos (e-CF). Proporciona detalles y verifica la autenticidad de un e-CF, asegurando que cumple con las normativas y está correctamente registrado.
+
+```js
+const Ecf = await consultENCF("402XXXXXX","E310000967869","404XXXXXXX2","NuqXxx")
+{
+  RNCEmisor: '402XXXXXX',
+  RNCComprador: '404XXXXXXX2',
+  eNCF: 'E310000967869',
+  Codigo: 'NuqXxx',
+  Estado: 'Aceptado',
+  Total: 62.57,
+  Itbis: 0,
+  Emision: '2024-09-01',
+  Firma: '2024-09-01'
+}
+```
 
 ## Objetos 
 
