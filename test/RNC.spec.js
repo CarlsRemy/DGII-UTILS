@@ -1,9 +1,10 @@
 // test.ts
 const { expect, assert } = require("chai");
 const { describe, it } = require("mocha");
-const { consultRNC, RNC } = require("../src/dgii-utils");
+const { consultRNC, RNC, getAspNetFields } = require("../src/dgii-utils");
 
 describe('RNC',()=>{
+
 	it("format para RNC '403012656'", ()=>{
 		const result = RNC.format("403012656")
 		assert.equal(result, "403-01265-6");

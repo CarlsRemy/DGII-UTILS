@@ -1,8 +1,11 @@
 {
   "name": "dgii-utils",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "DGII-Utils es un paquete de herramientas diseñado para simplificar la interacción con las aplicaciones web de la Dirección General de Impuestos Internos (DGII) en la República Dominicana. Este paquete incluye funciones para validar formatos fiscales como RNCs, cédulas, y comprobantes fiscales.",
   "main": "./dist/dgii-utils.min.js",
+    "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "terser src/dgii-utils.js --compress --mangle --output dist/dgii-utils.min.js && terser src/dgii-valid.js --compress --mangle --output dist/dgii-valid.min.js && terser src/dgii-format.js --compress --mangle --output dist/dgii-format.min.js",
     "test": "mocha test/*",
